@@ -103,6 +103,17 @@ ForwardList::Node* reverse(ForwardList* const list)
     return list->Head;
 }
 
+size_t size(const ForwardList* const list)
+{
+    size_t size = 0;
+    ForwardList::Node* head = list->Head;
+    while (head)
+    {
+        ++size;
+        head = head->Next;
+    }
+    return size;
+}
 
 
 
@@ -123,6 +134,8 @@ int main()
     std::cout << std::endl;
     reverse(list);
     print(list);
+    std::cout << size(list);
     destroy(&list);
+
     return 0;
 }
