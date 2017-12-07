@@ -1,18 +1,4 @@
-#include <iostream>
-
-struct ForwardList
-{
-    using value_type = int;
-
-    struct Node
-    {
-        value_type Data;
-        Node* Next;
-    };
-
-    Node* Head;
-    Node* Tail;
-};
+#include "forward_list.hpp"
 
 ForwardList::Node* createNode(const ForwardList::value_type& data, ForwardList::Node* next)
 {
@@ -31,7 +17,6 @@ ForwardList* initList()
 }
 void destroy(ForwardList** list)
 {
-
     ForwardList* listcopy = *list;
     ForwardList::Node* head = listcopy->Head;
     while (head)
@@ -41,7 +26,6 @@ void destroy(ForwardList** list)
         head = current;
     }
     delete listcopy;
-
     *list = nullptr;
 }
 ForwardList::Node* pushFront(ForwardList* const list, const ForwardList::value_type& data)
@@ -62,7 +46,8 @@ ForwardList::Node* popFront(ForwardList* const list)
     list->Head = second;
     return first;
 }
-ForwardList::Node* insertAfter(ForwardList* const list, ForwardList::Node* const where , const ForwardList::value_type& data)
+ForwardList::Node* insertAfter(ForwardList* const list, ForwardList::Node* const where ,
+                                const ForwardList::value_type& data)
 {
     ForwardList::Node* node = createNode(data, where->Next);
     where->Next = node;
@@ -74,12 +59,11 @@ ForwardList::Node* eraseAfter(ForwardList* const list, ForwardList::Node* const 
 {
     ForwardList::Node* nextdel = where->Next;
     where->Next = where->Next->Next;
-    if(nextdel == list->Tail)
+    if (nextdel == list->Tail)
     {
         list->Tail = where;
     }
     return nextdel;
-
 }
 void print(const ForwardList* const list)
 {
@@ -95,10 +79,10 @@ ForwardList::Node* reverse(ForwardList* const list)
 {
     ForwardList::Node* tmp = list->Head;
     ForwardList::Node* curr;
-    while(tmp->Next != nullptr)
+    while (tmp->Next != nullptr)
     {
-        curr = eraseAfter(list,tmp);
-        pushFront(list,curr->Data);
+        curr = eraseAfter(list, tmp);
+        pushFront(list, curr->Data);
     }
     return list->Head;
 }
@@ -113,29 +97,4 @@ size_t size(const ForwardList* const list)
         head = head->Next;
     }
     return size;
-}
-
-
-
-
-int main()
-{
-
-    ForwardList* list =initList();
-    pushFront(list,1);
-    pushFront(list,2);
-    pushFront(list,3);
-    pushFront(list,4);
-    pushFront(list,5);
-    popFront(list);
-    insertAfter(list,list->Head->Next,0);
-    eraseAfter(list, list->Head->Next->Next);
-    print(list);
-    std::cout << std::endl;
-    reverse(list);
-    print(list);
-    std::cout << size(list);
-    destroy(&list);
-
-    return 0;
 }
